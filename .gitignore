@@ -4,3 +4,8 @@ node_modules
 /.next
 /.next/*
 /.next
+.DS_Store
+.env
+.env.local
+.env.*.local
+/.DS_Store
