@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { InlineMath, BlockMath } from "react-katex";
 import "katex/dist/katex.min.css";
-import DarkVeil from "@/components/ui/DarkVeil";
-import Navbar from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import DarkVeil from "@components/ui/DarkVeil";
+import Navbar from "@components/navbar";
+import { Button } from "@components/ui/button";
+import { Card, CardContent } from "@components/ui/card";
+import { Input } from "@components/ui/input";
 import { Send } from "lucide-react";
 
 /**

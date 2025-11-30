@@ -2,16 +2,16 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { Button } from "@components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import DarkVeil from '@/components/ui/DarkVeil';
+} from "@components/ui/dropdown-menu"
+import { Avatar, AvatarImage, AvatarFallback } from "@components/ui/avatar"
+import DarkVeil from '@components/ui/DarkVeil';
 
 export default function Navbar() {
   const pathname = usePathname()

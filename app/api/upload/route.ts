@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import mammoth from 'mammoth';
 // import * as pdfParse from 'pdf-parse';
 import { randomUUID } from 'crypto';
-import { chunkText } from '../../../../lib/chunk';
-import { embedText } from '../../../../lib/embeddings';
-import { supabase } from '../../../../lib/supabase';
-import { safeParseJson } from '../../../../utils/safeParse';
+import { chunkText } from '@lib/chunk';
+import { embedText } from '@lib/embeddings';
+import { supabase } from '@lib/supabase';
+import { safeParseJson } from '@lib/utils';
 
 // --- Utility functions (copied from api/upload.ts) ---
 const MAX_TEXT_LENGTH = 500_000;
@@ -74,7 +74,7 @@ async function extractTextFromBuffer(fileBuffer: Buffer, filename: string | unde
   // Images (support more types)
   const imageExtPattern = /\.(png|jpe?g|gif|bmp|tiff?|webp)$/;
   if (mt.startsWith('image/') || imageExtPattern.test(lower)) {
-    const { ocrWithGptVision } = await import('../../../../lib/vision');
+    const { ocrWithGptVision } = await import('@lib/vision');
     return await ocrWithGptVision(fileBuffer, mimeType || 'image/*');
   }
   // Fallback: log and throw error

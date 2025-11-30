@@ -1,7 +1,7 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import DarkVeil from '@/components/ui/DarkVeil';
+import { Button } from "@components/ui/button"
+import DarkVeil from '@components/ui/DarkVeil';
 // import Supabase client if you want to use Supabase auth
 // import { supabase } from "@/app/supabaseClient";
 import Link from "next/link";

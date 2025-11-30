@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Button } from "@components/ui/button"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/app/supabaseClient"
-import DarkVeil from "@/components/ui/DarkVeil"
+import { supabase } from "@app/supabaseClient"
+import DarkVeil from "@components/ui/DarkVeil"
 
 export default function SignUpPage() {
     const router = useRouter();

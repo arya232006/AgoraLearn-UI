@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import DarkVeil from "@/components/ui/DarkVeil"
-import { supabase } from "@/app/supabaseClient"
+import { Button } from "@components/ui/button"
+import DarkVeil from "@components/ui/DarkVeil"
+import { supabase } from "@app/supabaseClient"
 import Link from "next/link"
 
 export default function ForgotPasswordPage() {
