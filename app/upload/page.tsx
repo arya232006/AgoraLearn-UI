@@ -1,6 +1,6 @@
-"use client"
 
-import type React from "react"
+"use client"
+import React from "react"
 
 import { useState } from "react"
 import Navbar from "@/components/navbar"
@@ -14,6 +14,7 @@ export default function UploadPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -52,14 +53,14 @@ export default function UploadPage() {
       const formData = new FormData()
       formData.append("file", uploadedFile)
 
-      const response = await fetch("/api/upload", {
+      const response = await fetch("http://localhost:3000/api/upload", {
         method: "POST",
         body: formData,
       })
 
       const data = await response.json()
 
-      if (data.success) {
+      if (data.ok) {
         setShowSuccess(true)
         setUploadedFile(null)
         setTimeout(() => setShowSuccess(false), 5000)
@@ -111,12 +112,17 @@ export default function UploadPage() {
                 <p className="text-sm text-muted-foreground mb-4">or</p>
                 <label>
                   <input
+                    ref={fileInputRef}
                     type="file"
                     onChange={handleFileInputChange}
                     className="hidden"
                     accept=".pdf,.doc,.docx,.txt,.md"
                   />
-                  <Button type="button" variant="outline">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
                     Click to select
                   </Button>
                 </label>

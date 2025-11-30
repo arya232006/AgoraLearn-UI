@@ -3,8 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import DarkVeil from "@/components/ui/DarkVeil"
-import { sendPasswordResetEmail } from "firebase/auth"
-import { auth } from "@/app/firebase"
+import { supabase } from "@/app/supabaseClient"
 import Link from "next/link"
 
 export default function ForgotPasswordPage() {
@@ -25,13 +24,13 @@ export default function ForgotPasswordPage() {
 
     setLoading(true)
     try {
-      // Attempt Firebase password reset; if not configured, this will throw.
-      await sendPasswordResetEmail(auth, email)
-      setMessage("If an account exists for that email, a password reset link has been sent.")
-    } catch (err) {
-      // Minimal error surface for UX; show more details in dev environment if desired.
-      setError("Failed to send reset email. Please try again.")
-      console.error("Password reset error:", err)
+      const { error } = await supabase.auth.resetPasswordForEmail(email)
+      if (error) {
+        setError("Failed to send reset email. Please try again.")
+        console.error("Supabase password reset error:", error)
+      } else {
+        setMessage("If an account exists for that email, a password reset link has been sent.")
+      }
     } finally {
       setLoading(false)
     }

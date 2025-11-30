@@ -3,15 +3,38 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { supabase } from "@/app/supabaseClient"
 import DarkVeil from "@/components/ui/DarkVeil"
 
 export default function RegisterPage() {
+    const router = useRouter();
+
+    useEffect(() => {
+      const checkUser = async () => {
+        const { data } = await supabase.auth.getUser();
+        if (data.user) {
+          router.push("/dashboard");
+        }
+      };
+      checkUser();
+      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+          router.push("/dashboard");
+        }
+      });
+      return () => {
+        listener?.subscription?.unsubscribe();
+      };
+    }, [router]);
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
   const [loading, setLoading] = useState(false)
+  const [oauthLoading, setOauthLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -23,9 +46,17 @@ export default function RegisterPage() {
     }
     setLoading(true)
     try {
-      // ...existing code...
-      // Replace with real registration call (Firebase/Auth API)
-      console.log("register", { name, email })
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { name } }
+      })
+      if (error) {
+        setError(error.message)
+      } else {
+        setError(null)
+        // Optionally redirect or show success message
+      }
     } catch (err) {
       setError("Registration failed")
     } finally {
@@ -44,11 +75,31 @@ export default function RegisterPage() {
         <p className="text-white/80 mb-6">Join AgoraLearn to upload documents and get AI-powered answers.</p>
 
         <div className="space-y-3 mb-4">
-          <Button variant="outline" size="lg" className="w-full bg-transparent text-white">
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full bg-transparent text-white"
+            onClick={async () => {
+              setOauthLoading(true)
+              await supabase.auth.signInWithOAuth({ provider: "google" })
+              setOauthLoading(false)
+            }}
+            disabled={oauthLoading}
+          >
             Continue with Google
           </Button>
 
-          <Button variant="outline" size="lg" className="w-full bg-transparent text-white">
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full bg-transparent text-white"
+            onClick={async () => {
+              setOauthLoading(true)
+              await supabase.auth.signInWithOAuth({ provider: "github" })
+              setOauthLoading(false)
+            }}
+            disabled={oauthLoading}
+          >
             Continue with GitHub
           </Button>
         </div>

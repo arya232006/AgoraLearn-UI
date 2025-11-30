@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import DarkVeil from '@/components/ui/DarkVeil';
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -24,16 +25,19 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Upload", href: "/upload" },
     { name: "Chat", href: "/chat" },
   ]
 
   return (
-    <nav className="border-b border-border bg-card sticky top-0 z-50">
+    <nav className="border-b border-border sticky top-0 z-50 relative min-h-[64px]">
+      {/* DarkVeil animated background for navbar */}
+      <div className="absolute inset-0 -z-10 h-full w-full">
+        <DarkVeil resolutionScale={1} />
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/dashboard" className="font-bold text-xl text-primary">
+          <Link href="/dashboard" className="font-bold text-xl text-white">
             AgoraLearn
           </Link>
 
@@ -43,9 +47,11 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  pathname === item.href ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"
-                }`}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors border border-black
+                  ${pathname === item.href
+                    ? "bg-white text-black shadow"
+                    : "bg-black text-white hover:bg-white hover:text-black"}
+                `}
               >
                 {item.name}
               </Link>
